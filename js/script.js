@@ -3,10 +3,24 @@
 let tasks = [];
 
 //=====================get tasks===========================================>
-taskGetter(tasks);//get tasks from the page into array
 
-taskSaver(tasks);
 
-taskLoader();
+window.onload = function(){
+    let tasksOnBoard = taskGetter(tasks);//get tasks from the page into array
 
-console.log(tasks);
+    taskSaver(tasks);
+    
+    taskLoader();
+    
+    
+
+    
+    
+    for(let i = 0; i < tasksOnBoard.length; i++){
+        tasksOnBoard[i].onmousemove = tooltipShow;
+        tasksOnBoard[i].onmouseout = tooltipHide;
+    }
+
+    console.log(tasks);
+
+}
