@@ -12,14 +12,17 @@ window.onload = function(){
     
     taskLoader();
     
-    
-
-    
-    
     for(let i = 0; i < tasksOnBoard.length; i++){
         tasksOnBoard[i].onmousemove = tooltipShow;
         tasksOnBoard[i].onmouseout = tooltipHide;
     }
+
+
+    for(let i = 0 ; i < tasksOnBoard.length; i++){
+        //добавляем обработчик на зажатие клавиши
+        tasksOnBoard[i].addEventListener("mousedown", paintTask);
+    }
+    //paintTask(tasksOnBoard);
 
     console.log(tasks);
 

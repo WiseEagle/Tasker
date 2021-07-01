@@ -13,10 +13,7 @@ Tooltip.prototype.show = function(text, x, y){
     this.tooltip.style.top = y + "px";
 
     if(this.tooltip.parentNode != document.body){
-        console.log("this.tooltip.parentNode != document.body")
         document.body.appendChild(this.tooltip);
-    }else{
-        console.log("some bad");
     }
 }
 

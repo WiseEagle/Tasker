@@ -2,6 +2,10 @@
     margin: 0;
     padding: 0;
 }
+body {
+    overflow-x: hidden;
+    width: 100%;
+}
 .task-wrapper {
     display: grid;
     grid-template-columns: 1fr 130px;
@@ -49,4 +53,12 @@ div#stickers > div span.sticker-color {
     padding: 15px;
     margin-bottom: 15px;
     box-shadow: 0 2px 2px 0px #555555;
+}
+.tooltip {
+    width: 400px;
+    max-width: 100%;
+    background: #ffffff;
+    border: 1px solid #eeeeee;
+    padding: 15px;
+    box-shadow: 0 0 3px 1px #dfedf0;
 }

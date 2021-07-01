@@ -52,3 +52,35 @@ let taskLoader = function(){
 
     console.log("loading changes!...");
 }
+
+//pain task
+let paintTask = function(){
+    //console.log("paint start");
+    
+    let moveTask = function(e){
+        if(!e) e = window.event;
+        //console.log("task moved");
+
+        this.style.position = "absolute";
+        this.style.left = (e.clientX - 25) + "px";
+        this.style.top = (e.clientY - 25) + "px";
+        this.style.width = "60px";
+        this.style.height = "60px";
+        this.style.boxSizing = "border-box";
+        this.style.borderRadius = "50%";
+        this.style.overflow = "hidden";
+    }
+
+    let dropTask = function(){
+        //console.log("Task dropped");
+        this.removeEventListener("mouseup", dropTask, true);
+        this.removeEventListener("mousemove", moveTask, true);
+        this.removeAttribute("style");
+    }
+    
+    
+    this.addEventListener("mousemove", moveTask, true);
+    this.addEventListener("mouseup", dropTask, true);
+        
+    
+}
