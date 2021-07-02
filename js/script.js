@@ -20,7 +20,7 @@ window.onload = function(){
 
     for(let i = 0 ; i < tasksOnBoard.length; i++){
         //добавляем обработчик на зажатие клавиши
-        tasksOnBoard[i].addEventListener("mousedown", paintTask);
+        tasksOnBoard[i].addEventListener("mousedown", () => paintTask(tasksOnBoard[i]));
     }
     //paintTask(tasksOnBoard);
 

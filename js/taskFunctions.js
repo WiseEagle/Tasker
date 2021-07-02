@@ -53,34 +53,48 @@ let taskLoader = function(){
     console.log("loading changes!...");
 }
 
-//pain task
-let paintTask = function(){
+//pain task, move task
+let paintTask = function(taskElement){
     //console.log("paint start");
     
     let moveTask = function(e){
         if(!e) e = window.event;
         //console.log("task moved");
 
-        this.style.position = "absolute";
-        this.style.left = (e.clientX - 25) + "px";
-        this.style.top = (e.clientY - 25) + "px";
-        this.style.width = "60px";
-        this.style.height = "60px";
-        this.style.boxSizing = "border-box";
-        this.style.borderRadius = "50%";
-        this.style.overflow = "hidden";
+        taskElement.style.position = "absolute";
+        taskElement.style.left = (e.clientX - 25) + "px";
+        taskElement.style.top = (e.clientY - 25) + "px";
+        taskElement.style.width = "60px";
+        taskElement.style.height = "60px";
+        taskElement.style.boxSizing = "border-box";
+        taskElement.style.borderRadius = "50%";
+        taskElement.style.overflow = "hidden";
+
+        
+        for(let i = 0 ; i < stickerColors.length; i++){
+            if(e.clientX > stickerColors[i].offsetLeft 
+                && e.clientX < stickerColors[i].offsetLeft+60
+                && e.clientY > stickerColors[i].offsetTop 
+                && e.clientY < stickerColors[i].offsetTop+60){
+                console.log(stickerColors[i].style.backgroundColor);
+                taskElement.style.backgroundColor = stickerColors[i].style.backgroundColor;
+            
+            }
+        }
     }
 
     let dropTask = function(){
         //console.log("Task dropped");
-        this.removeEventListener("mouseup", dropTask, true);
-        this.removeEventListener("mousemove", moveTask, true);
-        this.removeAttribute("style");
+        document.removeEventListener("mouseup", dropTask, true);
+        document.removeEventListener("mousemove", moveTask, true);
+        let bgTemp = taskElement.style.backgroundColor;
+        taskElement.removeAttribute("style");
+        taskElement.style.backgroundColor = bgTemp;
     }
     
     
-    this.addEventListener("mousemove", moveTask, true);
-    this.addEventListener("mouseup", dropTask, true);
+    document.addEventListener("mousemove", moveTask, true);
+    document.addEventListener("mouseup", dropTask, true);
         
     
 }
