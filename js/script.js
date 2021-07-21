@@ -2,28 +2,60 @@
 
 let tasks = [];
 
+
+
+let App = {};//create tasker namespace
+App.tasksInfo = []; //object whith tasks info
+App.tasksOnBoard = []; //dom (task) elements on board
+App.getTasksFromBoard = function(taskClass){
+    this.tasksOnBoard = document.getElementsByClassName(taskClass);
+}
+App.getTasksInfo = function(){
+    for(let i = 0; i < this.tasksOnBoard.length; i++){
+        this.tasksInfo[i] = new Task(parseInt(this.tasksOnBoard[i].dataset.id), this.tasksOnBoard[i].innerHTML.trim(), getElementColor(this.tasksOnBoard[i]), this.tasksOnBoard[i].dataset.status);
+    }
+}
+App.saveTasks = function(){
+    for(let i = 0; i < this.tasksInfo.length; i++){
+        if(this.tasksInfo[i].status == "new"){
+            this.tasksInfo[i].writeTaskIntoDB();
+        }
+    }
+}
+App.loadTasks = function(){
+    
+    fetch('http://tasks.reasavings.top/module/getTasks.php',
+        {mode: 'no-cors'}
+    )
+    .then((data) => {
+        console.log(data);
+    })
+    .then((response) => {
+       // return response.json();
+    });
+
+    console.log("loading changes!...");
+}
+
 //=====================get tasks===========================================>
 
-
 window.onload = function(){
-    let tasksOnBoard = taskGetter(tasks);//get tasks from the page into array
-
-    taskSaver(tasks);
+    App.getTasksFromBoard("task")//get tasks from the page into array by class name
+    App.getTasksInfo();//get tasks info into tasks object
     
-    taskLoader();
+    App.saveTasks();//save tasks functionality into db
     
-    for(let i = 0; i < tasksOnBoard.length; i++){
-        tasksOnBoard[i].onmousemove = tooltipShow;
-        tasksOnBoard[i].onmouseout = tooltipHide;
+    App.loadTasks();//load tasks functionality from db
+    
+    for(let i = 0; i < App.tasksOnBoard.length; i++){
+        App.tasksOnBoard[i].onmousemove = tooltipShow;
+        App.tasksOnBoard[i].onmouseout = tooltipHide;
     }
 
-
-    for(let i = 0 ; i < tasksOnBoard.length; i++){
+    for(let i = 0 ; i < App.tasksOnBoard.length; i++){
         //добавляем обработчик на зажатие клавиши
-        tasksOnBoard[i].addEventListener("mousedown", () => paintTask(tasksOnBoard[i]));
+        App.tasksOnBoard[i].addEventListener("mousedown", () => paintTask(App.tasksOnBoard[i]));
     }
-    //paintTask(tasksOnBoard);
-
-    console.log(tasks);
-
+    
+    console.log(App.tasksInfo);
 }
