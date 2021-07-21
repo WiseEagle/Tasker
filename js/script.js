@@ -1,9 +1,5 @@
 'use strict'
 
-let tasks = [];
-
-
-
 let App = {};//create tasker namespace
 App.tasksInfo = []; //object whith tasks info
 App.tasksOnBoard = []; //dom (task) elements on board
