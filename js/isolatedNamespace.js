@@ -1,22 +1,52 @@
-let App = {}
+let App = function(){
 
-App.define = function(namespace){
-    parts = namespace.split(".");
-    parent = App;
+    let args = Array.prototype.slice.call(arguments),
+        callback = args.pop(),
+        modules = (args[0] && typeof args[0] == "string") ? args : args[0],
+        i;
 
-    if(parts[0] == "App"){
-        parts.shift();
+    if (!(this instanceof App)){
+        return new App(modules, callback);
     }
 
-    for(let i = 0; i < parts.length; i++){
-        if(parent[parts[i]] == "undefined"){
-            parent[parts[i]] = {};
+    if(!modules || modules === "*"){
+        modules = [];
+
+        //for in, get string keys from all iterates in left parameter
+        //i - is string key
+        for (i in App.modules){
+            if(App.modules.hasOwnProperty(i)){
+                modules.push(i);
+            }
         }
-        parent = parent[parts[i]];
+
     }
 
-    return parent;
+    for(i = 0; i < modules.length; i++){
+        App.modules[modules[i]](this);
+    }
+
+    callback(this);
+
 }
 
-let module1 = App.define("App.utils.dom");
-console.log(module1);
+App.modules = {};
+
+App.modules.dom = function(box){
+    box.createTask = function(){console.log("modules dom - created task!")}
+    box.deleteTask = function(){console.log("modules dom - deleted task!")}
+}
+
+App.modules.ajax = function(box){
+    box.saveTask = function(){console.log("modules ajax - saved task!")}
+    box.deleteTask = function(){console.log("modules ajax - deleted task!")}
+    box.loadTask = function(){console.log("modules ajax - loaded task!")}
+}
+
+App.modules.events = function(box){
+    box.hoverTask = function(){console.log("modules events - hovered task!")}
+}
+
+App("ajax",function(task){
+    task.saveTask();    
+});
